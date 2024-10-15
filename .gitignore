@@ -1,4 +1,7 @@
 nginx/
 target/
 terraform/provider.tf
+terraform/.terraform.lock.hcl
+terraform/.terraform
+
 

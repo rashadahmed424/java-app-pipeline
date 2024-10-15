@@ -3,12 +3,9 @@ pipeline {
         maven 'maven 3.9.8'
     }
     parameters {
-        booleanParam(name: 'test', defaultValue: true, description: '')
+        booleanParam(name: 'test', defaultValue: false, description: '')
     }
 
-    environment{
-        ec2Instance="ec2-user@ip"
-    }
     agent any
 
     stages {
