@@ -1,0 +1,100 @@
+---
+- hosts: jenkins-server
+  remote_user: ec2-user
+  become: yes
+  vars: 
+    dir_name: jenkins_home
+
+    users_to_add: 
+      - ec2-user
+      - jenkins
+  tasks:
+    - name: Update yum cache
+      yum:
+        update_cache: yes
+
+    - name: Install docker
+      yum:
+        name: docker
+        state: latest
+    
+    - name: Start docker service
+      service:
+        name: docker
+        state: started
+        enabled: yes
+
+    - name: Add users to docker group
+      user:
+        name: "{{ item }}"
+        groups: docker
+        append: yes
+      loop: "{{ users_to_add }}"
+
+    - name: Create Jenkins home directory
+      file:
+        path: "{{ dir_name }}"
+        state: directory
+
+    - name: run jenkins container
+      shell: |
+        chmod 777 /home/ec2-user/jenkins_home
+        docker run -d -p 8080:8080 \
+        -v /home/ec2-user/jenkins_home/:/var/jenkins_home/ \
+        -v /var/run/docker.sock:/var/run/docker.sock \
+        --name jenkins-container \
+        jenkins/jenkins:lts 
+
+    - name: Install wget in Jenkins container as root
+      shell: 
+        docker exec --user root jenkins-container bash -c "apt-get update && apt-get install -y wget"
+    - name: Install Docker client in Jenkins container as root
+      shell: 
+        docker exec --user root jenkins-container bash -c "wget https://get.docker.com -O /tmp/installdocker.sh && chmod +x /tmp/installdocker.sh && bash /tmp/installdocker.sh"
+
+    - name: configure docker with jenkins
+      shell:
+        " chmod 666 /var/run/docker.sock "
+    - name: Install ansible in Jenkins container as root
+      shell: 
+        docker exec --user root jenkins-container bash -c "apt-get install -y ansible"
+    
+- hosts: web-server
+  remote_user: ec2-user
+  become: yes
+  tasks:
+    - name: Update yum cache
+      yum:
+        update_cache: yes
+
+    - name: Install docker
+      yum:
+        name: docker
+        state: latest
+    
+    - name: Start docker service
+      service:
+        name: docker
+        state: started
+        enabled: yes
+
+    - name: add user
+      shell: 
+        " usermod -aG docker ec2-user"
+
+    - name: Download Docker Compose
+      get_url:
+        url: "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-`uname -s`-`uname -m`"
+        dest: /usr/local/bin/docker-compose
+        mode: '0777'
+
+    # - name: Install ansible
+    #   yum:
+    #     name: ansible
+    #     state: latest
+
+
+    # - name: Make Docker Compose executable
+    #   file:
+    #     path: /usr/local/bin/docker-compose
+    #     mode: '0777'

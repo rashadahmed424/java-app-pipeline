@@ -1,0 +1,26 @@
+---
+- hosts: web-serve
+  remote_user: ec2-user
+  become: yes    
+  tasks: 
+
+    - name: Copy dockercompose.yaml to the server
+      copy:
+        src: ../docker/dockercompose.yaml 
+        dest: /home/ec2-user/dockercompose.yaml
+
+    - name: stop the application using Docker Compose
+      command: docker-compose down --remove-orphans
+      args:
+        chdir: /home/ec2-user
+
+    - name: Start the application using Docker Compose
+      command: docker-compose up -d
+      args:
+        chdir: /home/ec2-user
+
+    - name: Check if the application is running
+      wait_for:
+        port: 90
+        delay: 10
+        timeout: 60

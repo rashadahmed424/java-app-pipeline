@@ -1,0 +1,4 @@
+SPRING_PROFILES_ACTIVE=mysql
+MYSQL_URL=jdbc:mysql://mysqldb:3306/petclinic
+MYSQL_USER=petclinic
+MYSQL_PASSWORD=petclinic
