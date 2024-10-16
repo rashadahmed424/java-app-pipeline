@@ -1,7 +1,5 @@
 pipeline {
-    tools {
-        maven 'maven 3.9.8'
-    }
+
     parameters {
         booleanParam(name: 'test', defaultValue: false, description: '')
     }

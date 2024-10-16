@@ -59,6 +59,10 @@
       shell: 
         docker exec --user root jenkins-container bash -c "apt-get install -y ansible"
     
+    - name: Install maven in Jenkins container as root
+      shell: 
+        docker exec --user root jenkins-container bash -c "apt-get install -y maven"
+    
 - hosts: web-server
   remote_user: ec2-user
   become: yes
