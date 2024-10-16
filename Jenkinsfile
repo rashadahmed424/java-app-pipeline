@@ -95,14 +95,14 @@ pipeline {
     post {
         success {
             slackSend (
-                channel: 'C07S0N2RTEW', // Customize your Slack channel
+                channel: 'javaapppipeline', // Customize your Slack channel
                 color: 'good', // Green for success
                 message: "Build SUCCESSFUL! Job: ${env.JOB_NAME}, Build Number: ${env.BUILD_NUMBER}"
             )
         }
         failure {
             slackSend (
-                channel: 'C07S0N2RTEW',
+                channel: 'javaapppipeline',
                 color: 'danger', // Red for failure
                 message: "Build FAILED! Job: ${env.JOB_NAME}, Build Number: ${env.BUILD_NUMBER}"
             )
