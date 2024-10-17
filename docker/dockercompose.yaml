@@ -1,7 +1,7 @@
 version: '3.8'
 services:
   pet-app:
-    image: rashadahmed424/spring-pet-app:2.7.6-30   # find the latest image on dockerhub repo   
+    image: "${APP_IMAGE}"   # find the latest image on dockerhub repo   
     env_file: .envapp 
     deploy: 
       replicas: 5  

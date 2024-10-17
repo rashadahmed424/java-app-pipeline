@@ -63,7 +63,7 @@ pipeline {
                         sh '''
                         cd ansible
                         export ANSIBLE_HOST_KEY_CHECKING=False
-                        ansible-playbook -i inventory deploy-playbook.yaml
+                        ansible-playbook -i inventory deploy-playbook.yaml --extra-vars "image_name=rashadahmed424/spring-pet-app:${new_image}"
                         '''
                         }
                 }

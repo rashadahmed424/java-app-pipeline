@@ -1,15 +1,30 @@
 ---
 - hosts: web-server
   remote_user: ec2-user
-  become: yes    
+  become: yes   
+  vars:
+    image_name: "{{ image_name }}"   
   tasks: 
+    - name: Set the Docker image as an environment variable
+      shell: |
+        echo "export APP_IMAGE={{ image_name }}" >> /etc/profile.d/app_env.sh
+      
 
-    - name: Copy dockercompose.yaml to the server
+
+    - name: Copy multiple files to the server
       copy:
-        src: ../docker/dockercompose.yaml 
-        dest: /home/ec2-user/dockercompose.yaml
+        src: "../docker/{{ item }}"
+        dest: "/home/ec2-user/{{ item }}"
+      loop:
+        - dockercompose.yaml
+        - .envapp
+        - .envdb
+        - default.conf
 
 
+    - name: expose  New Image for pet app
+      shell:
+        "expose ${new_image"
     - name: stop the application using Docker Compose
       shell:
         " docker-compose -f /home/ec2-user/dockercompose.yaml down --remove-orphans "
