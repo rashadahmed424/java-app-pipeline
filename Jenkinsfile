@@ -48,7 +48,7 @@ pipeline {
             steps {
                 script {
                     withCredentials([usernamePassword(credentialsId: 'dockerhub-conn', usernameVariable: 'USER', passwordVariable: 'PASS')]) {
-                        sh "docker build -t rashadahmed424/spring-pet-app:${new_image} ."
+                        sh "docker build -t rashadahmed424/spring-pet-app:${new_image} ./docker/Dockerfile"
                         sh "echo \$PASS | docker login -u \$USER --password-stdin"
                         sh "docker push rashadahmed424/spring-pet-app:${new_image}"
                     }
