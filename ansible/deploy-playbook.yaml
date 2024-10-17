@@ -10,7 +10,7 @@
         dest: /home/ec2-user/dockercompose.yaml
 
 
-    - name: start the application using Docker Compose
+    - name: stop the application using Docker Compose
       shell:
         " docker-compose -f /home/ec2-user/dockercompose.yaml down --remove-orphans "
     
