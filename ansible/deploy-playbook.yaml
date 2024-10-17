@@ -22,9 +22,6 @@
         - default.conf
 
 
-    - name: expose  New Image for pet app
-      shell:
-        "expose ${new_image"
     - name: stop the application using Docker Compose
       shell:
         " docker-compose -f /home/ec2-user/dockercompose.yaml down --remove-orphans "
