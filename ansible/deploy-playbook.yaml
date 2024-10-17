@@ -9,15 +9,15 @@
         src: ../docker/dockercompose.yaml 
         dest: /home/ec2-user/dockercompose.yaml
 
-    - name: stop the application using Docker Compose
-      command: docker-compose down --remove-orphans
-      args:
-        chdir: /home/ec2-user
 
-    - name: Start the application using Docker Compose
-      command: docker-compose up -d
-      args:
-        chdir: /home/ec2-user
+    - name: start the application using Docker Compose
+      shell:
+        " docker-compose -f /home/ec2-user/dockercompose.yaml down --remove-orphans "
+    
+
+    - name: start the application using Docker Compose
+      shell:
+        " docker-compose -f /home/ec2-user/dockercompose.yaml up -d"
 
     - name: Check if the application is running
       wait_for:
