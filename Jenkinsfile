@@ -79,7 +79,7 @@ pipeline {
                         sh "git remote set-url origin https://${GIT_PASSWORD}@github.com/rashadahmed424/DEPI-DevOps-Grad-Project.git"
                         sh "git add pom.xml"
                         sh 'git commit -m "Added new version in pom.xml"'
-                        sh "git push origin HEAD:master"
+                        sh "git push origin HEAD:main"
                         
                     }
                 }
