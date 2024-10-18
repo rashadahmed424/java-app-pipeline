@@ -14,7 +14,7 @@
     - name: Copy multiple files to the server
       copy:
         src: "../docker/{{ item }}"
-        dest: "/home/ec2-user/{{ item }}"
+        dest: "/home/azureuser/{{ item }}"
       loop:
         - dockercompose.yaml
         - .envapp
