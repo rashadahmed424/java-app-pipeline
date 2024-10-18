@@ -24,12 +24,12 @@
 
     - name: stop the application using Docker Compose
       shell:
-        "APP_IMAGE={{ image_name }} docker-compose -f /home/ec2-user/dockercompose.yaml down --remove-orphans "
+        "APP_IMAGE={{ image_name }} docker-compose -f /home/azureuser/dockercompose.yaml down --remove-orphans "
     
 
     - name: start the application using Docker Compose
       shell:
-        "APP_IMAGE={{ image_name }} docker-compose -f /home/ec2-user/dockercompose.yaml up -d"
+        "APP_IMAGE={{ image_name }} docker-compose -f /home/azureuser/dockercompose.yaml up -d"
 
     - name: Check if the application is running
       wait_for:
