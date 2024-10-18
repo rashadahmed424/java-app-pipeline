@@ -15,6 +15,9 @@ setting up infrastructure with Terraform and Configuration with Ansible.
 ## requirements:
 * git
 * Docker
+* Ansible
+* Terraform
+* Jenkins
 
 
 
