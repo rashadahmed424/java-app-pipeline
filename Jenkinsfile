@@ -95,7 +95,7 @@ pipeline {
             slackSend (
                 channel: '#javaapppipeline', // Customize your Slack channel
                 color: 'good', // Green for success
-                message: "Build SUCCESSFUL! Job: ${env.JOB_NAME}, Build Number: ${env.BUILD_NUMBER}"
+                message: "Build SUCCESSFUL! Ahla Messa  Job: ${env.JOB_NAME}, Build Number: ${env.BUILD_NUMBER}"
             )
         }
         failure {
