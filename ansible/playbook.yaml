@@ -1,78 +1,78 @@
 ---
-- hosts: jenkins-server
-  remote_user: ec2-user
-  become: yes
-  vars: 
-    dir_name: jenkins_home
+# - hosts: jenkins-server
+#   remote_user: ec2-user
+#   become: yes
+#   vars: 
+#     dir_name: jenkins_home
 
-    users_to_add: 
-      - ec2-user
-      - jenkins
-  tasks:
-    - name: Update yum cache
-      yum:
-        update_cache: yes
+#     users_to_add: 
+#       - ec2-user
+#       - jenkins
+#   tasks:
+#     - name: Update yum cache
+    #   yum:
+    #     update_cache: yes
 
-    - name: Install docker
-      yum:
-        name: docker
-        state: latest
+    # - name: Install docker
+    #   yum:
+    #     name: docker
+    #     state: latest
     
-    - name: Start docker service
-      service:
-        name: docker
-        state: started
-        enabled: yes
+    # - name: Start docker service
+    #   service:
+    #     name: docker
+    #     state: started
+    #     enabled: yes
 
-    - name: Add users to docker group
-      user:
-        name: "{{ item }}"
-        groups: docker
-        append: yes
-      loop: "{{ users_to_add }}"
+    # - name: Add users to docker group
+    #   user:
+    #     name: "{{ item }}"
+    #     groups: docker
+    #     append: yes
+    #   loop: "{{ users_to_add }}"
 
-    - name: Create Jenkins home directory
-      file:
-        path: "{{ dir_name }}"
-        state: directory
+    # - name: Create Jenkins home directory
+    #   file:
+    #     path: "{{ dir_name }}"
+    #     state: directory
 
-    - name: run jenkins container
-      shell: |
-        chmod 777 /home/ec2-user/jenkins_home
-        docker run -d -p 8080:8080 \
-        -v /home/ec2-user/jenkins_home/:/var/jenkins_home/ \
-        -v /var/run/docker.sock:/var/run/docker.sock \
-        --name jenkins-container \
-        jenkins/jenkins:lts 
+    # - name: run jenkins container
+    #   shell: |
+    #     chmod 777 /home/ec2-user/jenkins_home
+    #     docker run -d -p 8080:8080 \
+    #     -v /home/ec2-user/jenkins_home/:/var/jenkins_home/ \
+    #     -v /var/run/docker.sock:/var/run/docker.sock \
+    #     --name jenkins-container \
+    #     jenkins/jenkins:lts 
 
-    - name: Install wget in Jenkins container as root
-      shell: 
-        docker exec --user root jenkins-container bash -c "apt-get update && apt-get install -y wget"
-    - name: Install Docker client in Jenkins container as root
-      shell: 
-        docker exec --user root jenkins-container bash -c "wget https://get.docker.com -O /tmp/installdocker.sh && chmod +x /tmp/installdocker.sh && bash /tmp/installdocker.sh"
+    # - name: Install wget in Jenkins container as root
+    #   shell: 
+    #     docker exec --user root jenkins-container bash -c "apt-get update && apt-get install -y wget"
+    # - name: Install Docker client in Jenkins container as root
+    #   shell: 
+    #     docker exec --user root jenkins-container bash -c "wget https://get.docker.com -O /tmp/installdocker.sh && chmod +x /tmp/installdocker.sh && bash /tmp/installdocker.sh"
 
-    - name: configure docker with jenkins
-      shell:
-        " chmod 666 /var/run/docker.sock "
-    - name: Install ansible in Jenkins container as root
-      shell: 
-        docker exec --user root jenkins-container bash -c "apt-get install -y ansible"
+    # - name: configure docker with jenkins
+    #   shell:
+    #     " chmod 666 /var/run/docker.sock "
+    # - name: Install ansible in Jenkins container as root
+    #   shell: 
+    #     docker exec --user root jenkins-container bash -c "apt-get install -y ansible"
     
-    - name: Install maven in Jenkins container as root
-      shell: 
-        docker exec --user root jenkins-container bash -c "apt-get install -y maven"
+    # - name: Install maven in Jenkins container as root
+    #   shell: 
+    #     docker exec --user root jenkins-container bash -c "apt-get install -y maven"
     
 - hosts: web-server
-  remote_user: ec2-user
+  remote_user: azureuser
   become: yes
   tasks:
     - name: Update yum cache
-      yum:
+      apt:
         update_cache: yes
 
     - name: Install docker
-      yum:
+      apt:
         name: docker
         state: latest
     
