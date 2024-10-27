@@ -3,5 +3,6 @@ target/
 terraform/provider.tf
 terraform/.terraform.lock.hcl
 terraform/.terraform
-
+presentation.pptx
+Project Github Links.xlsx
 
