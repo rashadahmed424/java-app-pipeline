@@ -76,9 +76,9 @@ pipeline {
                     withCredentials([string(credentialsId: 'github-token', variable: 'GIT_PASSWORD')]) {
                         sh "git config --global user.name 'rashadahmed424'"
                         sh "git config --global user.email 'rashadahmed177@gmail.com'"
-                        sh "git remote set-url origin https://${GIT_PASSWORD}@github.com/rashadahmed424/DEPI-DevOps-Grad-Project.git"
+                        sh "git remote set-url origin https://${GIT_PASSWORD}@github.com/rashadahmed424/java-app-pipeline.git"
                         sh "git add pom.xml"
-                        sh 'git commit -m "Added new version in pom.xml"'
+                        sh 'git commit -am "Added new version in pom.xml [skip ci]"'
                         sh "git push origin HEAD:main"
                         
                     }
